@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic QR code</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Aligns children (canvas, buttons, etc.) in a column */
+    justify-content: center;
+    align-items: center;
+    background-color: black; /* Change background to black */
+  }
+
+  canvas {
+    display: block;
+    background-color: #000000;
+    margin: 20px auto;
+    border: 1px solid #000000; /* Ensure the border is visible */
+  }
+
+  button, a {
+    display: block;
+    background-color: white; /* Set background to white */
+    color: black; /* Set text color to black for contrast */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center; /* Center text within button and link */
+    text-decoration: none; /* Remove underline from link */
+    margin-top: 20px; /* Provide spacing between elements */
+  }
+
+  a {
+    background-color: transparent; /* Optional: make link background transparent */
+    margin-top: 10px; /* Additional margin-top for the link */
+  }
+</style>
+</head>
+<body>
+    
+<canvas id="canvas"></canvas>
+<button onclick="saveQR()">Save this QR</button>
+
+<a href="decode.html" style="color: white;">Go to QR Decoder</a>
+
+<script src="sphere.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+<script src="customQR.js"></script>
+
+<script>
+function saveQR() {
+    const canvas = document.getElementById('canvas');
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    const tempCtx = tempCanvas.getContext('2d');
+
+    // Set the background to white for high contrast
+    tempCtx.fillStyle = 'white';
+    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+    // Draw the QR code from the main canvas to the temporary canvas
+    tempCtx.globalAlpha = 1.0;
+    tempCtx.drawImage(canvas, 0, 0);
+
+    // Convert the temporary canvas to a data URL
+    const image = tempCanvas.toDataURL('image/png');
+
+    // Create a link and trigger the download
+    const link = document.createElement('a');
+    link.download = 'myQR.png';  // Name of the file to download
+    link.href = image;
+    link.click();
+}
+</script>
+
+</body>
+</html>

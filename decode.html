@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Decode QR Code</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+    <a href="index.html" class="link-to-generator">Go to QR Generator</a>
+    <div class="file-input-container">
+        <div class="input-group">
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+        
+    </div>
+    <button onclick="readQR()">Scan QR</button>
+    <div id="qrResult">Scan result will appear here</div>
+
+    <!-- Include necessary scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script>
+       function readQR() {
+    const fileInput = document.getElementById('fileInput');
+    const qrResult = document.getElementById('qrResult');
+
+    if (fileInput.files.length === 0) {
+        alert('Please select an image file.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0);
+
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                inversionAttempts: "attemptBoth",
+            });
+
+            if (code) {
+                console.log('QR code found:', code.data);
+                qrResult.textContent = 'QR Code Data: ' + code.data;
+            } else {
+                console.log('No QR code found.');
+                qrResult.textContent = 'No QR code found.';
+            }
+        };
+
+        img.onerror = function() {
+            console.error('Failed to load the image');
+            qrResult.textContent = 'Failed to load the image.';
+        };
+
+        img.src = e.target.result;
+    };
+
+    reader.onerror = function() {
+        console.error('Error reading the file');
+        qrResult.textContent = 'Error reading the file.';
+    };
+
+    reader.readAsDataURL(fileInput.files[0]);
+}
+
+        </script>
+        
+</body>
+</html>

@@ -1,0 +1,62 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: black; /* Change background to black */
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.link-to-generator {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.file-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  border: 1px solid white;
+  padding: 20px;
+  width: 300px; /* Adjust to fit content or preference */
+}
+
+.input-group {
+  margin-bottom: 20px; /* Space between input and button */
+  width: 100%;
+  border: none;
+  display: flex;
+  justify-content: center;
+}
+
+input[type="file"] {
+  color: white; /* This might not change the button color in some browsers */
+}
+
+button {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 7px;
+  width: 50%; /* Optional: Match the width to the input box */
+}
+
+#qrResult {
+  margin-top: 20px;
+  border: 1px solid white;
+  padding: 10px;
+  width: 90%; /* Adjust based on your preference */
+  text-align: center;
+  background-color: #333; /* Dark background for contrast */
+}
